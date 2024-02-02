@@ -1,19 +1,40 @@
+using Assets.Code.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //[SerializeField]
+    //public float JumpSpeed = 1f;
+    //[SerializeField]
+    //public float backSpeed = 0.5f;
+    //[SerializeField]
+    //public float directSpeed = 3f;
+
+    [InspectorName("Movement")]
     [SerializeField]
-    public float JumpSpeed = 1f;
+    MovementSettings movementSettings = new MovementSettings()
+    {
+        jumpSpeed = 1f,
+        backSpeed = 0.5f,
+        directSpeed = 3f,
+        walkSpeed = 1f,
+    };
+
+    [InspectorName("Game")]
     [SerializeField]
-    public float backSpeed = 0.5f;
-    [SerializeField]
-    public float directSpeed = 3f;
+    GameSettings gameSettings;
 
     private Rigidbody rb;
     private AudioSource audioSource;
     private Animator animator;
+
+    bool isTransitioning = false;
+    bool collisionEnabled = true;
+
+    bool isFlying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,20 +49,38 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            PlayFlySound();
-            PlayFlyAnimation();
-            MoveUp();
+            MakeFlap();  
         }
 
+        if (isFlying)
+        {
+            Fly();
+        }
+        else
+        {
+            Walk();
+        }
+    }
+
+    private void MakeFlap()
+    {
+        isFlying = true;
+        PlayFlySound();
+        PlayFlyAnimation();
+        MoveUp();
+    }
+
+    private void Fly()
+    {
         // todo: remove back movement? or rotate the bird
         if (Input.GetKey(KeyCode.A))
         {
-            ApplyRotation(-backSpeed);
+            ApplyRotation(-movementSettings.backSpeed);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            ApplyRotation(directSpeed);
+            ApplyRotation(movementSettings.directSpeed);
         }
     }
 
@@ -61,18 +100,86 @@ public class PlayerMovement : MonoBehaviour
     private void MoveUp()
     {
         rb.freezeRotation = true;
-        Vector3 upForce = Vector3.up * JumpSpeed * Time.deltaTime;
+        Vector3 upForce = Vector3.up * movementSettings.jumpSpeed * Time.deltaTime;
         rb.AddRelativeForce(upForce);
-        Debug.Log($"UP: {upForce}");
+        //Debug.Log($"UP: {upForce}");
         rb.freezeRotation = false;
     }
 
     private void ApplyRotation(float speed)
     {
         //rb.AddRelativeForce(directSpeed * Time.deltaTime, 0, 0);
-        Debug.Log($"F: {Vector3.back}");
+        //Debug.Log($"F: {Vector3.back}");
         Vector3 fwd = Vector3.back * speed * Time.deltaTime;
-        Debug.Log($"D: {fwd}");
+        //Debug.Log($"D: {fwd}");
         transform.Rotate(fwd);
+    }
+
+    private void Walk()
+    {
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.position -= new Vector3(movementSettings.walkSpeed*Time.deltaTime, 0, 0);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.position += new Vector3(movementSettings.walkSpeed*Time.deltaTime, 0, 0);
+        }
+    }
+
+    // collision
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isTransitioning || !collisionEnabled) { return; }
+
+        switch (collision.gameObject.tag)
+        {
+            case "Deadly":
+                StartCrushSequence();
+                break;
+            case "Finish":
+                StartWinSequence();
+                break;
+            case "Ground":
+                LandBird();
+                break;
+        }
+    }
+
+    private void StartCrushSequence()
+    {
+        // todo: add notification about death
+        // todo: add bird-death effect
+        isTransitioning = true;
+        GetComponent<PlayerMovement>().enabled = false;
+        audioSource?.PlayOneShot(gameSettings.crushAudio);
+        animator.SetBool("isDead", true);
+        gameSettings.crushParticle?.Play();
+        Invoke("ReloadLevel", gameSettings.reloadDelay);
+    }
+
+    private void StartWinSequence()
+    {
+        // todo: add win effects
+        isTransitioning = true;
+        audioSource?.PlayOneShot(gameSettings.winAudio);
+        gameSettings.winParticle?.Play();
+        Invoke("ReloadLevel", gameSettings.reloadDelay);
+    }
+
+    public void ReloadLevel()
+    {
+        string activeSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(activeSceneName);
+    }
+
+    private void LandBird()
+    {
+        isFlying = false;
+        rb.freezeRotation = false;
+        transform.rotation = Quaternion.identity;
+        rb.freezeRotation = true;
+        animator.SetBool("isFlying", false);
     }
 }
