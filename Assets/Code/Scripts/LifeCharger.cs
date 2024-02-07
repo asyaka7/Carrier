@@ -6,6 +6,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 [ExecuteAlways]
 public class LifeCharger : MonoBehaviour
 {
+    [SerializeField] float healthPoints = 50;
     [SerializeField] float LightIntensity = 1.0f;
     Light innerLight;
 
@@ -34,9 +35,16 @@ public class LifeCharger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag != "Player")
+        var rootObject = other.transform.root.gameObject;
+         if (rootObject.tag != "Player")
             return;
-        
+
+        PlayerHealth playerHealth = rootObject.GetComponent<PlayerHealth>();
+        if (playerHealth != null )
+        {
+            playerHealth.AddHealthPoints(healthPoints);
+        }
+
         Debug.Log($"{name} catched");
         Debug.Log($"{gameObject.name} catched");
         Destroy(gameObject);
