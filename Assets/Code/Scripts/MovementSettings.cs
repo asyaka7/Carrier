@@ -15,17 +15,6 @@ namespace Assets.Code.Scripts
         public float backSpeed;
         public float directSpeed;
         public float walkSpeed;
-
-        //public BirdPlayerSettings(float jumpSpeed, float backSpeed, float directSpeed)
-        //{
-        //    //JumpSpeed = 1f;
-        //    //backSpeed = 0.5f;
-        //    //directSpeed = 3f;
-
-        //    this.jumpSpeed = jumpSpeed;
-        //    this.backSpeed = backSpeed;
-        //    this.directSpeed = directSpeed;
-        //}
     }
 
     [Serializable]
@@ -36,18 +25,17 @@ namespace Assets.Code.Scripts
         public AudioClip crushAudio;
         public AudioClip winAudio;
 
-        public ParticleSystem winParticle;
-        public ParticleSystem crushParticle;
+        //public ParticleSystem winParticle;
+        //public ParticleSystem crushParticle;
 
         public GameSettings(float reloadDelay)
         {
-            // reloadDelay = 2f
             this.reloadDelay = reloadDelay;
 
             this.winAudio = null;
             this.crushAudio = null;
-            this.winParticle = null;
-            this.crushParticle = null;
+            //this.winParticle = null;
+            //this.crushParticle = null;
         }
     }
 }

@@ -6,13 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //[SerializeField]
-    //public float JumpSpeed = 1f;
-    //[SerializeField]
-    //public float backSpeed = 0.5f;
-    //[SerializeField]
-    //public float directSpeed = 3f;
-
     [InspectorName("Movement")]
     [SerializeField]
     MovementSettings movementSettings = new MovementSettings()
@@ -23,12 +16,11 @@ public class PlayerMovement : MonoBehaviour
         walkSpeed = 1f,
     };
 
-    [InspectorName("Game")]
     [SerializeField]
-    GameSettings gameSettings;
+    AudioClip flapAudio;
+
 
     private Rigidbody rb;
-    private AudioSource audioSource;
     private Animator animator;
 
     bool isTransitioning = false;
@@ -41,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
-        audioSource = rb.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -86,9 +77,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayFlySound()
     {
-        if (!audioSource.isPlaying)
+        if (!AudioPlayer.Instance.IsPlaying)
         {
-            audioSource.Play();
+            AudioPlayer.Instance.Play(flapAudio);
         }
     }
 
@@ -153,26 +144,24 @@ public class PlayerMovement : MonoBehaviour
         // todo: add bird-death effect
         isTransitioning = true;
         GetComponent<PlayerMovement>().enabled = false;
-        audioSource?.PlayOneShot(gameSettings.crushAudio);
+        //audioSource?.PlayOneShot(gameSettings.crushAudio);
         animator.SetBool("isDead", true);
-        gameSettings.crushParticle?.Play();
-        Invoke("ReloadLevel", gameSettings.reloadDelay);
+        //gameSettings.crushParticle?.Play();
+        //Invoke("ReloadLevel", gameSettings.reloadDelay);
+        GameManager.Instance.GameOver();
     }
 
     private void StartWinSequence()
     {
         // todo: add win effects
         isTransitioning = true;
-        audioSource?.PlayOneShot(gameSettings.winAudio);
-        gameSettings.winParticle?.Play();
-        Invoke("ReloadLevel", gameSettings.reloadDelay);
+        //audioSource?.PlayOneShot(gameSettings.winAudio);
+        //gameSettings.winParticle?.Play();
+        //Invoke("ReloadLevel", gameSettings.reloadDelay);
+        GameManager.Instance.Win();
     }
 
-    public void ReloadLevel()
-    {
-        string activeSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(activeSceneName);
-    }
+
 
     private void LandBird()
     {
