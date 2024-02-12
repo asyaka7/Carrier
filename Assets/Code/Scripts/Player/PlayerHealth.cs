@@ -12,12 +12,25 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] float maxHealth = 100;
     [SerializeField] TextMeshPro healthText;
 
+    [SerializeField] Light playerHeart;
+    [SerializeField] float minLightIntensity = 0.5f;
+    [SerializeField] float maxLightIntensity = 3;
+
     float currentHealth = 0;
     bool isPause = false;
 
     void Start()
     {
         currentHealth = startHealth;
+        UpdateLightIntensity();
+    }
+
+    private void UpdateLightIntensity()
+    {
+        if (playerHeart != null)
+        {
+            playerHeart.intensity = Mathf.Lerp(minLightIntensity, maxLightIntensity, currentHealth / maxHealth);
+        }
     }
 
     void Update()
@@ -26,6 +39,7 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth -= Time.deltaTime;
             UpdateUI();
+            UpdateLightIntensity();
             LiveOrDie();
         }
     }

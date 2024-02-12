@@ -17,36 +17,29 @@ namespace Assets.Code.Scripts
 
         public event Action PlayerIsDead;
 
-        //[HideInInspector]
-        //public PlayerStateType PlayerState = PlayerStateType.Live;
-
         protected override void Awake()
         {
             base.Awake();
-            //PlayerState = PlayerStateType.Live;
         }
 
         public void Win()
         {
             AudioPlayer.Instance.Play(gameSettings.winAudio);
-            //gameSettings.winParticle?.Play();
-            // show win screen
+            // to do: move fx here
             ReloadLevel(gameSettings.reloadDelay);
         }
 
         public void GameOver()
         {
-            //AudioPlayer.Instance.Play(gameSettings.crushAudio);
-            //gameSettings.crushParticle?.Play();
-            // show game over screen
-            //PlayerState = PlayerStateType.Dead;
-            Invoke("StartReloading", 2);
+            // to do: move fx here
+            //Invoke("StartReloading", 2);
+            StartReloading();
         }
 
         private void StartReloading()
         {
             PlayerIsDead?.Invoke();
-            ReloadLevel(gameSettings.reloadDelay);
+            ReloadLevel(gameSettings.deathDuration + gameSettings.reloadDelay);
         }
 
         public void ReloadLevel(float delay)

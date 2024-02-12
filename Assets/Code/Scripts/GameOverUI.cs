@@ -18,6 +18,11 @@ public class GameOverUI : MonoBehaviour
 
     private void PlayerIsDead()
     {
+        Invoke("Activate", GameManager.Instance.gameSettings.deathDuration);
+    }
+
+    private void Activate()
+    {
         SetReloadText(reloadTime);
         bodyUI.SetActive(true);
     }

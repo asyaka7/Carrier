@@ -47,6 +47,12 @@ namespace Assets.Code.Scripts.Player
             animator = GetComponentInChildren<Animator>();
 
             InitStateMachine();
+            GameManager.Instance.PlayerIsDead += PlayerIsDead;
+        }
+
+        private void PlayerIsDead()
+        {
+            TemporaryKill();
         }
 
         private void InitStateMachine()
@@ -143,7 +149,11 @@ namespace Assets.Code.Scripts.Player
         private void Kill()
         {
             isTransitioning = true;
+            GameManager.Instance.GameOver();
+        }
 
+        internal void TemporaryKill()
+        {
             AudioPlayer.Instance.Play(GameManager.Instance.gameSettings.crushAudio);
             playerStateMachine.TransitTo(PlayerAnimStateType.Dead);
             GetComponent<PlayerController>().enabled = false;
@@ -151,7 +161,6 @@ namespace Assets.Code.Scripts.Player
             body?.SetActive(false);
             rb.useGravity = false;
             PlayCrushFX();
-            GameManager.Instance.GameOver();
         }
 
         internal void PlayCrushFX()
@@ -183,6 +192,11 @@ namespace Assets.Code.Scripts.Player
             rb.freezeRotation = false;
             transform.rotation = Quaternion.identity;
             rb.freezeRotation = true;
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.PlayerIsDead -= PlayerIsDead;
         }
     }
 }

@@ -23,21 +23,9 @@ namespace Assets.Code.Scripts
     internal struct GameSettings
     {
         public float reloadDelay;
+        public float deathDuration;
 
         public AudioClip crushAudio;
         public AudioClip winAudio;
-
-        //public ParticleSystem winParticle;
-        //public ParticleSystem crushParticle;
-
-        public GameSettings(float reloadDelay)
-        {
-            this.reloadDelay = reloadDelay;
-
-            this.winAudio = null;
-            this.crushAudio = null;
-            //this.winParticle = null;
-            //this.crushParticle = null;
-        }
     }
 }
