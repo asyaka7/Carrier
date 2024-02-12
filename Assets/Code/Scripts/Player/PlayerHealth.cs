@@ -21,8 +21,36 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.PlayerIsDead += PlayerIsDead;
+        GameManager.Instance.PlayerIsWin += PlayerIsWin;
+        GameManager.Instance.UIHealthVisibleChanged += UIHealthVisibleChanged;
+
         currentHealth = startHealth;
         UpdateLightIntensity();
+        ChangeUIVisibility();
+    }
+
+    private void UIHealthVisibleChanged()
+    {
+        ChangeUIVisibility();
+    }
+
+    private void ChangeUIVisibility()
+    {
+        if (healthText != null)
+        {
+            healthText.enabled = GameManager.Instance.isUIHealthVisible;
+        }
+    }
+
+    private void PlayerIsWin()
+    {
+        isPause = true;
+    }
+
+    private void PlayerIsDead()
+    {
+        isPause = true;
     }
 
     private void UpdateLightIntensity()
@@ -73,5 +101,12 @@ public class PlayerHealth : MonoBehaviour
             isPause = true;
             GameManager.Instance.GameOver();
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.PlayerIsDead -= PlayerIsDead;
+        GameManager.Instance.PlayerIsWin -= PlayerIsWin;
+        GameManager.Instance.UIHealthVisibleChanged -= UIHealthVisibleChanged;
     }
 }

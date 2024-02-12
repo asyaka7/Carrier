@@ -24,6 +24,7 @@ namespace Assets.Code.Scripts
     {
         public float reloadDelay;
         public float deathDuration;
+        public float winPoseDuration;
 
         public AudioClip crushAudio;
         public AudioClip winAudio;

@@ -52,7 +52,7 @@ namespace Assets.Code.Scripts.Player
 
         private void PlayerIsDead()
         {
-            TemporaryKill();
+            PlayDeathFX();
         }
 
         private void InitStateMachine()
@@ -152,15 +152,25 @@ namespace Assets.Code.Scripts.Player
             GameManager.Instance.GameOver();
         }
 
-        internal void TemporaryKill()
+        internal void PlayDeathFX()
         {
             AudioPlayer.Instance.Play(GameManager.Instance.gameSettings.crushAudio);
             playerStateMachine.TransitTo(PlayerAnimStateType.Dead);
-            GetComponent<PlayerController>().enabled = false;
+            TurnOffUserControl();
+            HideBody();
+            PlayCrushFX();
+        }
+
+        private void HideBody()
+        {
             heart?.SetActive(false);
             body?.SetActive(false);
             rb.useGravity = false;
-            PlayCrushFX();
+        }
+
+        private void TurnOffUserControl()
+        {
+            GetComponent<PlayerController>().enabled = false;
         }
 
         internal void PlayCrushFX()
@@ -173,6 +183,7 @@ namespace Assets.Code.Scripts.Player
             //isTransitioning = true;
             //playerStateMachine.TransitTo(PlayerAnimStateType.Dead);
             LandBird();
+            TurnOffUserControl();
             Invoke("PlayWinFX", 0.5f);
         }
 

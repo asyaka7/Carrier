@@ -16,23 +16,40 @@ namespace Assets.Code.Scripts
         public GameSettings gameSettings;
 
         public event Action PlayerIsDead;
+        public event Action PlayerIsWin;
+        public event Action UIHealthVisibleChanged;
+
+        [SerializeField] public bool isUIHealthVisible;
 
         protected override void Awake()
         {
             base.Awake();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                GameManager.Instance.ReloadLevel();
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                isUIHealthVisible = !isUIHealthVisible;
+                UIHealthVisibleChanged?.Invoke();
+            }
+        }
+
         public void Win()
         {
             AudioPlayer.Instance.Play(gameSettings.winAudio);
             // to do: move fx here
-            ReloadLevel(gameSettings.reloadDelay);
+            PlayerIsWin?.Invoke();
         }
 
         public void GameOver()
         {
             // to do: move fx here
-            //Invoke("StartReloading", 2);
             StartReloading();
         }
 
