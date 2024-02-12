@@ -89,7 +89,7 @@ Light:
   m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 1.26e-43, z: 6.3999e-41, w: 6.5289e-41}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 5.5e-44, z: 3.2371e-41, w: NaN}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -120,7 +120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5485704022226424162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.198, y: 0.39, z: -0.277}
+  m_LocalPosition: {x: 0.171, y: 0.39, z: -0.277}
   m_LocalScale: {x: 0.49, y: 0.49, z: 0.49}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4969,7 +4969,7 @@ Transform:
   - {fileID: 6920186573906407248}
   - {fileID: 756133544614782773}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5694043721593442967
 MonoBehaviour:
@@ -4984,10 +4984,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSettings:
-    jumpSpeed: 1700
-    backSpeed: 30
-    directSpeed: 40
     walkSpeed: 2
+    startFlySpeed: 30
+    flyUpSpeed: 10
+    flyRotationSpeed: 40
+    flyBackRotationSpeed: 30
+    maxFlyAngle: 40
+    accelerationTime: 0.1
+    angleRotationTime: 0.3
+  flapAudio: {fileID: 0}
+  crushParticle: {fileID: 0}
 --- !u!54 &1803279528320413691
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5098,9 +5104,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3672989486477858917, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_Height
+      value: 0.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 3672989486477858917, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_Radius
+      value: 0.33
+      objectReference: {fileID: 0}
     - target: {fileID: 4555898127063411463, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
       propertyPath: m_Name
       value: Sparrow_LOD3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570035905743909385, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570035905743909385, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570035905743909385, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570035905743909385, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570035905743909385, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570035905743909385, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570035905743909385, guid: e23c85086d2af87419bdb97d397969f7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

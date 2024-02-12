@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Code.Scripts
@@ -10,11 +6,17 @@ namespace Assets.Code.Scripts
     [Serializable]
     public struct MovementSettings
     {
-        [Header("Fly")]
-        public float jumpSpeed;
-        public float backSpeed;
-        public float directSpeed;
         public float walkSpeed;
+
+        public float startFlySpeed;
+        public float flyUpSpeed;
+        public float flyRotationSpeed;
+        public float flyBackRotationSpeed;
+        public float maxFlyAngle;
+
+        public float accelerationTime;
+        public float angleRotationTime;
+
     }
 
     [Serializable]

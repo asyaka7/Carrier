@@ -1,6 +1,5 @@
 using Assets.Code.Scripts;
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Code.Scripts.Player;
 using TMPro;
 using UnityEngine;
 
@@ -21,12 +20,12 @@ public class GameOverUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.PlayerState == GameManager.PlayerStateType.Live)
+        if (GameManager.Instance.PlayerState == PlayerStateType.Live)
         {
             bodyUI.SetActive(false);
         }
 
-        if (GameManager.Instance.PlayerState == GameManager.PlayerStateType.Dead)
+        if (GameManager.Instance.PlayerState == PlayerStateType.Dead)
         {
             if (bodyUI != null)
             {

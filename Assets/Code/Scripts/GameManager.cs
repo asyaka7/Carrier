@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Code.Scripts.Player;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Assets.Code.Scripts
         [SerializeField]
         public GameSettings gameSettings;
 
-        public enum PlayerStateType { Live, Dead };
+
 
         [HideInInspector]
         public PlayerStateType PlayerState = PlayerStateType.Live;
@@ -35,7 +36,7 @@ namespace Assets.Code.Scripts
 
         public void GameOver()
         {
-            AudioPlayer.Instance.Play(gameSettings.crushAudio);
+            //AudioPlayer.Instance.Play(gameSettings.crushAudio);
             //gameSettings.crushParticle?.Play();
             // show game over screen
             PlayerState = PlayerStateType.Dead;
