@@ -4994,6 +4994,7 @@ MonoBehaviour:
     angleRotationTime: 0.3
   flapAudio: {fileID: 0}
   crushParticle: {fileID: 0}
+  heart: {fileID: 0}
 --- !u!54 &1803279528320413691
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5287,10 +5288,6 @@ PrefabInstance:
     - target: {fileID: 198631066050499358, guid: 62198a3a5dbb64a4f9e1618929224faa, type: 3}
       propertyPath: ShapeModule.radiusThickness
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198631066050499358, guid: 62198a3a5dbb64a4f9e1618929224faa, type: 3}
-      propertyPath: EmissionModule.rateOverTime.scalar
-      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 198631066050499358, guid: 62198a3a5dbb64a4f9e1618929224faa, type: 3}
       propertyPath: LifetimeByEmitterSpeedModule.enabled
