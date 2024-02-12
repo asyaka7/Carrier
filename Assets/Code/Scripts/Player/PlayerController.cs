@@ -23,10 +23,15 @@ namespace Assets.Code.Scripts.Player
 
         [SerializeField]
         internal AudioClip flapAudio;
+
+        // todo: move to game manager
         [SerializeField]
         internal ParticleSystem crushParticle;
+        [SerializeField]
+        internal ParticleSystem winParticle;
 
         [SerializeField] GameObject heart;
+        [SerializeField] GameObject body;
 
         PlayerStateMachine playerStateMachine;
 
@@ -143,6 +148,7 @@ namespace Assets.Code.Scripts.Player
             playerStateMachine.TransitTo(PlayerAnimStateType.Dead);
             GetComponent<PlayerController>().enabled = false;
             heart?.SetActive(false);
+            body?.SetActive(false);
             rb.useGravity = false;
             PlayCrushFX();
             GameManager.Instance.GameOver();
@@ -155,12 +161,15 @@ namespace Assets.Code.Scripts.Player
 
         private void Win()
         {
-            // todo: add win effects
-            isTransitioning = true;
+            //isTransitioning = true;
             //playerStateMachine.TransitTo(PlayerAnimStateType.Dead);
-            //audioSource?.PlayOneShot(gameSettings.winAudio);
-            //gameSettings.winParticle?.Play();
-            //Invoke("ReloadLevel", gameSettings.reloadDelay);
+            LandBird();
+            Invoke("PlayWinFX", 0.5f);
+        }
+
+        private void PlayWinFX()
+        {
+            winParticle?.Play();
             GameManager.Instance.Win();
         }
 

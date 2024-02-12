@@ -15,15 +15,15 @@ namespace Assets.Code.Scripts
         [SerializeField]
         public GameSettings gameSettings;
 
+        public event Action PlayerIsDead;
 
-
-        [HideInInspector]
-        public PlayerStateType PlayerState = PlayerStateType.Live;
+        //[HideInInspector]
+        //public PlayerStateType PlayerState = PlayerStateType.Live;
 
         protected override void Awake()
         {
             base.Awake();
-            PlayerState = PlayerStateType.Live;
+            //PlayerState = PlayerStateType.Live;
         }
 
         public void Win()
@@ -39,7 +39,13 @@ namespace Assets.Code.Scripts
             //AudioPlayer.Instance.Play(gameSettings.crushAudio);
             //gameSettings.crushParticle?.Play();
             // show game over screen
-            PlayerState = PlayerStateType.Dead;
+            //PlayerState = PlayerStateType.Dead;
+            Invoke("StartReloading", 2);
+        }
+
+        private void StartReloading()
+        {
+            PlayerIsDead?.Invoke();
             ReloadLevel(gameSettings.reloadDelay);
         }
 

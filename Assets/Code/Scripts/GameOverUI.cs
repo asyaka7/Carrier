@@ -10,34 +10,35 @@ public class GameOverUI : MonoBehaviour
 
     float reloadTime;
 
-    // Start is called before the first frame update
     void Start()
     {
         reloadTime = GameManager.Instance.gameSettings.reloadDelay;
-        SetReloadText(reloadTime);
+        GameManager.Instance.PlayerIsDead += PlayerIsDead;
     }
 
-    // Update is called once per frame
+    private void PlayerIsDead()
+    {
+        SetReloadText(reloadTime);
+        bodyUI.SetActive(true);
+    }
+
     void Update()
     {
-        if (GameManager.Instance.PlayerState == PlayerStateType.Live)
+        if (bodyUI != null && bodyUI.activeSelf)
         {
-            bodyUI.SetActive(false);
-        }
-
-        if (GameManager.Instance.PlayerState == PlayerStateType.Dead)
-        {
-            if (bodyUI != null)
-            {
-                bodyUI.SetActive(true);
-                reloadTime -= Time.deltaTime;
-                SetReloadText(reloadTime);
-            }
+            reloadTime -= Time.deltaTime;
+            SetReloadText(reloadTime);
         }
     }
 
     private void SetReloadText(float value)
     {
-        reloadText.text = value.ToString("F0");
+        float roundValue = Mathf.Ceil(value); // to reduce "0" time on screen
+        reloadText.text = roundValue.ToString("F0");
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.PlayerIsDead -= PlayerIsDead;
     }
 }
