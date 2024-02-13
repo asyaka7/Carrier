@@ -21,13 +21,19 @@ namespace Assets.Code.Scripts
 
         [SerializeField] public bool isUIHealthVisible;
 
+        bool isControlPause = false;
+
         protected override void Awake()
         {
+            isControlPause = false;
             base.Awake();
         }
 
         private void Update()
         {
+            if (isControlPause)
+                return;
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 GameManager.Instance.ReloadLevel();
@@ -42,6 +48,7 @@ namespace Assets.Code.Scripts
 
         public void Win()
         {
+            isControlPause = true;
             AudioPlayer.Instance.Play(gameSettings.winAudio);
             // to do: move fx here
             PlayerIsWin?.Invoke();
@@ -50,6 +57,7 @@ namespace Assets.Code.Scripts
         public void GameOver()
         {
             // to do: move fx here
+            isControlPause = true;
             StartReloading();
         }
 
