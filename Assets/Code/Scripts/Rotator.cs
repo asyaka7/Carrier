@@ -18,12 +18,15 @@ public class Rotator : MonoBehaviour
     void Update()
     {
         float deltaAngle = speed * Time.deltaTime * directionFactor;
-        currenAngle += deltaAngle;
-        transform.Rotate(0, 0, deltaAngle);
 
-        if (Mathf.Abs(currenAngle) > maxAngle)
+        if (Mathf.Abs(currenAngle + deltaAngle) > maxAngle)
         {
             directionFactor *= -1;
+        }
+        else
+        {
+            currenAngle += deltaAngle;
+            transform.Rotate(0, 0, deltaAngle);
         }
     }
 }
