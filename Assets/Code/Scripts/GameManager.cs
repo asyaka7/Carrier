@@ -23,10 +23,9 @@ namespace Assets.Code.Scripts
 
         bool isControlPause = false;
 
-        protected override void Awake()
+        private void OnLevelWasLoaded(int level)
         {
             isControlPause = false;
-            base.Awake();
         }
 
         private void Update()
@@ -48,7 +47,7 @@ namespace Assets.Code.Scripts
 
         public void Win()
         {
-            isControlPause = true;
+            //isControlPause = true;
             AudioPlayer.Instance.Play(gameSettings.winAudio);
             // to do: move fx here
             PlayerIsWin?.Invoke();
