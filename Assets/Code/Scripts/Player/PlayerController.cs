@@ -40,6 +40,7 @@ namespace Assets.Code.Scripts.Player
 
         bool isTransitioning = false;
         bool collisionEnabled = true;
+        bool isUserControlled = false;
 
         void Start()
         {
@@ -74,35 +75,37 @@ namespace Assets.Code.Scripts.Player
         {
             if (isTransitioning) return;
 
-            bool isMoving = false;
-
+            isUserControlled = false;
             if (Input.GetKey(KeyCode.Space))
             {
                 playerStateMachine.TransitTo(PlayerAnimStateType.Fly);
-                isMoving = true;
+                isUserControlled = true;
             }
 
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
             {
-                isMoving = true;
+                isUserControlled = true;
                 if (playerStateMachine.CurrentStateType != PlayerAnimStateType.Fly)
                 {
                     playerStateMachine.TransitTo(PlayerAnimStateType.Walk);
                 }
             }
 
-            if (!isMoving)
-            {
-                Idle();
-            }
+            Idle();
         }
 
         private void Idle()
         {
-            if (rb.velocity.magnitude == 0)
+            if (!IsInMove())
             {
                 playerStateMachine.TransitTo(PlayerAnimStateType.Idle);
             }
+        }
+
+        private bool IsInMove()
+        {
+            bool isMoving = isUserControlled || rb.velocity.magnitude != 0;
+            return isMoving;
         }
 
         internal void MoveUp(float speed, float accelerationTime)
@@ -181,7 +184,6 @@ namespace Assets.Code.Scripts.Player
         private void Win()
         {
             //isTransitioning = true;
-            //playerStateMachine.TransitTo(PlayerAnimStateType.Dead);
             LandBird();
             TurnOffUserControl();
             Invoke("PlayWinFX", 0.5f);
@@ -195,7 +197,14 @@ namespace Assets.Code.Scripts.Player
 
         private void LandBird()
         {
-            playerStateMachine.InitState(PlayerAnimStateType.Idle);
+            if (!isUserControlled)
+            {
+                playerStateMachine.TransitTo(PlayerAnimStateType.Idle);
+            }
+            else
+            {
+                playerStateMachine.TransitTo(PlayerAnimStateType.Walk);
+            }
         }
 
         internal void RestorePosture()

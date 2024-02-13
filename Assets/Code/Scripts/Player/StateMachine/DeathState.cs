@@ -13,17 +13,15 @@ namespace Assets.Code.Scripts.Player.StateMachine
         public void Enter()
         {
             playerController.animator.SetTrigger("isDead");
-            //.SetBool("isDead", true);
         }
 
         public void Exit()
         {
-            //playerController.animator.SetBool("isDead", false);
         }
 
         public void Update()
         {
-            // play feather blust after some time
+            // play feather blust after some time?
         }
     }
 }

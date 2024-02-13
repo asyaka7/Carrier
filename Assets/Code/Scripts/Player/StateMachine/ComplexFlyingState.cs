@@ -10,6 +10,8 @@ namespace Assets.Code.Scripts.Player.StateMachine
     {
         PlayerController playerController;
         FlyingStateMachine stateMachine;
+        FlyAccelerationState flyAccelerationState; // todo: add appropriate onfinished event
+
         public ComplexFlyingState(PlayerController playerController)
         {
             this.playerController = playerController;
@@ -20,25 +22,24 @@ namespace Assets.Code.Scripts.Player.StateMachine
         public void Enter()
         {
             playerController.animator.SetTrigger("isFlying");
-            //.SetBool("isFlying", true);
             stateMachine.InitState(PlayerFlyAnimStateType.Acceleration);
             
-            if (stateMachine.CurrentState != null)
+            if (stateMachine.CurrentState is FlyAccelerationState)
             {
-                FlyAccelerationState flyAccelerationState = stateMachine.CurrentState as FlyAccelerationState;
+                flyAccelerationState = stateMachine.CurrentState as FlyAccelerationState;
                 flyAccelerationState.OnFinished += OnAccelerationFinished;
             }
         }
 
         private void OnAccelerationFinished()
         {
+            flyAccelerationState.OnFinished -= OnAccelerationFinished;
             stateMachine.InitState(PlayerFlyAnimStateType.Fly);
-            //stateMachine.CurrentState.OnFinished -= OnAccelerationFinished;
+            flyAccelerationState = null;
         }
 
         public void Exit()
         {
-            //playerController.animator.SetBool("isFlying", false);
         }
 
         public void Update()

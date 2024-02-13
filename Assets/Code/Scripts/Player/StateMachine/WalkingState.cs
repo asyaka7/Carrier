@@ -15,12 +15,11 @@ namespace Assets.Code.Scripts.Player.StateMachine
         public void Enter()
         {
             playerController.animator.SetTrigger("isWalking");
-                //SetBool("isWalking", true);
+            playerController.RestorePosture();
         }
 
         public void Exit()
         {
-            //playerController.animator.SetBool("isWalking", false);
         }
 
         public void Update()
