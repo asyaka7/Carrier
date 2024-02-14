@@ -45,8 +45,6 @@ public class LifeCharger : MonoBehaviour
             playerHealth.AddHealthPoints(healthPoints);
         }
 
-        Debug.Log($"{name} catched");
-        Debug.Log($"{gameObject.name} catched");
         Destroy(gameObject);
         
         // add player glowing effect

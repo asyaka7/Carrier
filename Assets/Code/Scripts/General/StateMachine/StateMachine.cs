@@ -20,11 +20,19 @@ namespace Assets.Code.Scripts.General.StateMachine
             IState state = stateFabric.Create(type);
             if (CurrentState != null)
             {
-                Debug.Log("Exit " + CurrentStateType.ToString());
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log("Exit " + CurrentStateType.ToString());
+                }
                 state.Exit();
             }
             CurrentState = state;
-            Debug.Log("Enter " + type.ToString());
+
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log("Enter " + type.ToString());
+            }
+
             state.Enter();
             CurrentStateType = type;
         }
