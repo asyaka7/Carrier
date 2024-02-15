@@ -8,14 +8,14 @@ Carrier is a small bird finds itself barely alive in the midst of the darkness. 
 It is the game about the place where hard feelings can trapped us to. And finding a way out of that place. It is about depression.
 
 ### Specifications
-- Genre: Puzzle Platformer
-- Stage: Prototype
+- Genre: Adventure, Puzzle Platformer
+- Stage: <font color="tomato"><b>Prototype</b></font>
 - Platforms: PC (now), mobile (later)
 
 ## Build to Play
-[Download Win x64]()
+[Download for Windows | itch.io](https://asyaka7.itch.io/carrier)
 
-[Play in Web]()
+[Play Online](https://asyaka7.github.io/Carrier/)
 
 ## Credits
 ### Assets
@@ -40,3 +40,6 @@ It is the game about the place where hard feelings can trapped us to. And findin
 The license do not apply on free assets which distributed under [Standard Unity Asset Store EULA](https://unity.com/legal/as-terms).
 
 All rights on credited third-party assets belong to their authors.
+
+ 
+ 
