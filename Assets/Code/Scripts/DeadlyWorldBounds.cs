@@ -1,3 +1,4 @@
+using Assets.Code.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class DeadlyWorldBounds : MonoBehaviour
     {
         if (other.transform.root.tag == "Player")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameManager.Instance.GameOver();
         }
     }
 }
